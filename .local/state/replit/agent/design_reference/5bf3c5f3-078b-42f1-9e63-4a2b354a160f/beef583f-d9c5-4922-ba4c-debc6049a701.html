@@ -1,0 +1,750 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>International Mobile Recharge POS System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'admin': '#DC2626',
+                        'employee': '#059669',
+                        'retailer': '#7C3AED',
+                        'customer': '#EA580C',
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- Role Selector Header -->
+    <div class="bg-white border-b border-gray-200 px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold text-gray-900">Mobile Recharge POS System</h1>
+                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">Demo Mode</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <label class="text-sm font-medium text-gray-700">View as:</label>
+                <select id="roleSelector" class="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="admin">Admin</option>
+                    <option value="employee">Employee (Accountant)</option>
+                    <option value="retailer">Retailer</option>
+                    <option value="customer">Customer</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="dashboard-view">
+        <div class="flex h-screen bg-gray-50">
+            <!-- Admin Sidebar -->
+            <div class="w-64 bg-white shadow-lg">
+                <div class="p-6 bg-admin text-white">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-user-shield text-xl"></i>
+                        <div>
+                            <h2 class="font-semibold">Admin Portal</h2>
+                            <p class="text-sm opacity-90">System Administrator</p>
+                        </div>
+                    </div>
+                </div>
+                <nav class="mt-6">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-700 bg-gray-100 border-r-2 border-admin">
+                        <i class="fas fa-chart-bar w-5"></i>
+                        <span class="ml-3">Dashboard</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-users w-5"></i>
+                        <span class="ml-3">Employee Management</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-store w-5"></i>
+                        <span class="ml-3">Retailer Management</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-chart-line w-5"></i>
+                        <span class="ml-3">Analytics</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-cog w-5"></i>
+                        <span class="ml-3">System Settings</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Admin Main Content -->
+            <div class="flex-1 overflow-hidden">
+                <div class="p-6">
+                    <div class="mb-6">
+                        <h1 class="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+                        <p class="text-gray-600">Complete system overview and management</p>
+                    </div>
+
+                    <!-- Metrics Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Total Revenue</p>
+                                    <p class="text-2xl font-bold text-gray-900">$124,586</p>
+                                    <p class="text-sm text-green-600">+12.5% from last month</p>
+                                </div>
+                                <div class="bg-admin bg-opacity-10 p-3 rounded-full">
+                                    <i class="fas fa-dollar-sign text-admin"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Active Employees</p>
+                                    <p class="text-2xl font-bold text-gray-900">24</p>
+                                    <p class="text-sm text-blue-600">3 new this week</p>
+                                </div>
+                                <div class="bg-employee bg-opacity-10 p-3 rounded-full">
+                                    <i class="fas fa-users text-employee"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Retailer Partners</p>
+                                    <p class="text-2xl font-bold text-gray-900">156</p>
+                                    <p class="text-sm text-purple-600">8 pending approval</p>
+                                </div>
+                                <div class="bg-retailer bg-opacity-10 p-3 rounded-full">
+                                    <i class="fas fa-store text-retailer"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Daily Transactions</p>
+                                    <p class="text-2xl font-bold text-gray-900">1,847</p>
+                                    <p class="text-sm text-orange-600">Peak: 2:30 PM</p>
+                                </div>
+                                <div class="bg-customer bg-opacity-10 p-3 rounded-full">
+                                    <i class="fas fa-mobile-alt text-customer"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Employee Management Section -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <h2 class="text-lg font-semibold text-gray-900">Employee Management</h2>
+                                <button class="bg-admin text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700">
+                                    <i class="fas fa-plus mr-2"></i>Add Employee
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Employee</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="w-8 h-8 bg-employee text-white rounded-full flex items-center justify-center text-sm font-medium">JS</div>
+                                                    <div class="ml-3">
+                                                        <div class="text-sm font-medium text-gray-900">John Smith</div>
+                                                        <div class="text-sm text-gray-500">john.smith@company.com</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Accountant</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Finance</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">Active</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <button class="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
+                                                <button class="text-red-600 hover:text-red-900">Suspend</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="w-8 h-8 bg-employee text-white rounded-full flex items-center justify-center text-sm font-medium">MJ</div>
+                                                    <div class="ml-3">
+                                                        <div class="text-sm font-medium text-gray-900">Mary Johnson</div>
+                                                        <div class="text-sm text-gray-500">mary.johnson@company.com</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Technical Support</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">IT</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">Active</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <button class="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
+                                                <button class="text-red-600 hover:text-red-900">Suspend</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Dashboard -->
+    <div id="employeeDashboard" class="dashboard-view hidden">
+        <div class="flex h-screen bg-gray-50">
+            <!-- Employee Sidebar -->
+            <div class="w-64 bg-white shadow-lg">
+                <div class="p-6 bg-employee text-white">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-user-tie text-xl"></i>
+                        <div>
+                            <h2 class="font-semibold">Employee Portal</h2>
+                            <p class="text-sm opacity-90">Accountant</p>
+                        </div>
+                    </div>
+                </div>
+                <nav class="mt-6">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-700 bg-gray-100 border-r-2 border-employee">
+                        <i class="fas fa-chart-bar w-5"></i>
+                        <span class="ml-3">Dashboard</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-calculator w-5"></i>
+                        <span class="ml-3">Financial Reports</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-receipt w-5"></i>
+                        <span class="ml-3">Transaction Oversight</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-balance-scale w-5"></i>
+                        <span class="ml-3">Balance Management</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Employee Main Content -->
+            <div class="flex-1 overflow-hidden">
+                <div class="p-6">
+                    <div class="mb-6">
+                        <h1 class="text-2xl font-bold text-gray-900">Accountant Dashboard</h1>
+                        <p class="text-gray-600">Financial oversight and transaction management</p>
+                    </div>
+
+                    <!-- Financial Overview Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Today's Revenue</p>
+                                    <p class="text-2xl font-bold text-gray-900">$8,547</p>
+                                    <p class="text-sm text-green-600">+5.2% from yesterday</p>
+                                </div>
+                                <div class="bg-employee bg-opacity-10 p-3 rounded-full">
+                                    <i class="fas fa-dollar-sign text-employee"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Pending Reconciliation</p>
+                                    <p class="text-2xl font-bold text-gray-900">43</p>
+                                    <p class="text-sm text-orange-600">Requires attention</p>
+                                </div>
+                                <div class="bg-orange-100 p-3 rounded-full">
+                                    <i class="fas fa-exclamation-triangle text-orange-600"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">System Balance</p>
+                                    <p class="text-2xl font-bold text-gray-900">$45,892</p>
+                                    <p class="text-sm text-blue-600">Available funds</p>
+                                </div>
+                                <div class="bg-blue-100 p-3 rounded-full">
+                                    <i class="fas fa-wallet text-blue-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Transactions -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h2 class="text-lg font-semibold text-gray-900">Recent Transactions</h2>
+                        </div>
+                        <div class="p-6">
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction ID</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone Number</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#TXN-001247</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$25.00</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">+1-555-0123</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">Completed</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2 hours ago</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#TXN-001246</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$50.00</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">+44-20-7946-0958</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">Pending</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3 hours ago</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Retailer Dashboard -->
+    <div id="retailerDashboard" class="dashboard-view hidden">
+        <div class="flex h-screen bg-gray-50">
+            <!-- Retailer Sidebar -->
+            <div class="w-64 bg-white shadow-lg">
+                <div class="p-6 bg-retailer text-white">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-store text-xl"></i>
+                        <div>
+                            <h2 class="font-semibold">Retailer POS</h2>
+                            <p class="text-sm opacity-90">Mobile Recharge Center</p>
+                        </div>
+                    </div>
+                </div>
+                <nav class="mt-6">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-700 bg-gray-100 border-r-2 border-retailer">
+                        <i class="fas fa-mobile-alt w-5"></i>
+                        <span class="ml-3">New Recharge</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-history w-5"></i>
+                        <span class="ml-3">Transaction History</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-chart-pie w-5"></i>
+                        <span class="ml-3">Daily Reports</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-wallet w-5"></i>
+                        <span class="ml-3">Account Balance</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Retailer Main Content -->
+            <div class="flex-1 overflow-hidden">
+                <div class="p-6">
+                    <div class="mb-6">
+                        <h1 class="text-2xl font-bold text-gray-900">Mobile Recharge POS</h1>
+                        <p class="text-gray-600">International mobile phone top-up service</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Recharge Form -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                            <h2 class="text-lg font-semibold text-gray-900 mb-6">New Recharge</h2>
+                            
+                            <form class="space-y-6">
+                                <!-- @STATE: selectedCountry:string = '' -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Select Country</label>
+                                    <select class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-retailer focus:border-transparent">
+                                        <option value="">Choose a country...</option>
+                                        <option value="us">🇺🇸 United States</option>
+                                        <option value="uk">🇬🇧 United Kingdom</option>
+                                        <option value="ca">🇨🇦 Canada</option>
+                                        <option value="de">🇩🇪 Germany</option>
+                                        <option value="fr">🇫🇷 France</option>
+                                        <option value="in">🇮🇳 India</option>
+                                        <option value="au">🇦🇺 Australia</option>
+                                    </select>
+                                </div>
+
+                                <!-- @STATE: phoneNumber:string = '' -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                                    <input type="tel" placeholder="+1 (555) 123-4567" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-retailer focus:border-transparent">
+                                </div>
+
+                                <!-- @STATE: selectedCarrier:string = '' -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Carrier</label>
+                                    <select class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-retailer focus:border-transparent">
+                                        <option value="">Select carrier...</option>
+                                        <option value="verizon">Verizon</option>
+                                        <option value="att">AT&T</option>
+                                        <option value="tmobile">T-Mobile</option>
+                                        <option value="sprint">Sprint</option>
+                                    </select>
+                                </div>
+
+                                <!-- @STATE: rechargeAmount:number = 0 -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Recharge Amount</label>
+                                    <div class="grid grid-cols-3 gap-3 mb-3">
+                                        <button type="button" class="p-3 border border-gray-300 rounded-md text-center hover:border-retailer hover:bg-purple-50 focus:ring-2 focus:ring-retailer">
+                                            <div class="font-medium">$10</div>
+                                            <div class="text-xs text-gray-500">Basic</div>
+                                        </button>
+                                        <button type="button" class="p-3 border border-gray-300 rounded-md text-center hover:border-retailer hover:bg-purple-50 focus:ring-2 focus:ring-retailer">
+                                            <div class="font-medium">$25</div>
+                                            <div class="text-xs text-gray-500">Standard</div>
+                                        </button>
+                                        <button type="button" class="p-3 border border-gray-300 rounded-md text-center hover:border-retailer hover:bg-purple-50 focus:ring-2 focus:ring-retailer">
+                                            <div class="font-medium">$50</div>
+                                            <div class="text-xs text-gray-500">Premium</div>
+                                        </button>
+                                    </div>
+                                    <input type="number" placeholder="Custom amount" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-retailer focus:border-transparent">
+                                </div>
+
+                                <div class="bg-purple-50 p-4 rounded-md">
+                                    <div class="flex justify-between text-sm">
+                                        <span>Recharge Amount:</span>
+                                        <span data-bind="rechargeAmount">$25.00</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span>Service Fee:</span>
+                                        <span>$2.50</span>
+                                    </div>
+                                    <div class="border-t border-purple-200 mt-2 pt-2 flex justify-between font-medium">
+                                        <span>Total:</span>
+                                        <span>$27.50</span>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="w-full bg-retailer text-white py-3 px-4 rounded-md font-medium hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-retailer" data-event="click:processRecharge" data-implementation="Should validate form and process payment">
+                                    <i class="fas fa-mobile-alt mr-2"></i>
+                                    Process Recharge
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Quick Stats & Recent Transactions -->
+                        <div class="space-y-6">
+                            <!-- Today's Stats -->
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                                <h2 class="text-lg font-semibold text-gray-900 mb-4">Today's Performance</h2>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-retailer">47</div>
+                                        <div class="text-sm text-gray-600">Transactions</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-green-600">$1,847</div>
+                                        <div class="text-sm text-gray-600">Revenue</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Transactions -->
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                                <h2 class="text-lg font-semibold text-gray-900 mb-4">Recent Transactions</h2>
+                                <div class="space-y-3">
+                                    <!-- @MAP: recentTransactions.map(transaction => ( -->
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">+1-555-0123</div>
+                                            <div class="text-xs text-gray-500">Verizon - $25.00</div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-sm font-medium text-green-600">Completed</div>
+                                            <div class="text-xs text-gray-500">2:30 PM</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">+44-20-7946</div>
+                                            <div class="text-xs text-gray-500">EE - $10.00</div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-sm font-medium text-yellow-600">Processing</div>
+                                            <div class="text-xs text-gray-500">2:15 PM</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">+1-604-555</div>
+                                            <div class="text-xs text-gray-500">Rogers - $50.00</div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-sm font-medium text-green-600">Completed</div>
+                                            <div class="text-xs text-gray-500">1:45 PM</div>
+                                        </div>
+                                    </div>
+                                    <!-- @END_MAP )) -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Dashboard -->
+    <div id="customerDashboard" class="dashboard-view hidden">
+        <div class="flex h-screen bg-gray-50">
+            <!-- Customer Sidebar -->
+            <div class="w-64 bg-white shadow-lg">
+                <div class="p-6 bg-customer text-white">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-user text-xl"></i>
+                        <div>
+                            <h2 class="font-semibold">Customer Portal</h2>
+                            <p class="text-sm opacity-90">Self-Service</p>
+                        </div>
+                    </div>
+                </div>
+                <nav class="mt-6">
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-700 bg-gray-100 border-r-2 border-customer">
+                        <i class="fas fa-mobile-alt w-5"></i>
+                        <span class="ml-3">Recharge Phone</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-history w-5"></i>
+                        <span class="ml-3">My Transactions</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-address-book w-5"></i>
+                        <span class="ml-3">Saved Numbers</span>
+                    </a>
+                    <a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-user-cog w-5"></i>
+                        <span class="ml-3">Account Settings</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Customer Main Content -->
+            <div class="flex-1 overflow-hidden">
+                <div class="p-6">
+                    <div class="mb-6">
+                        <h1 class="text-2xl font-bold text-gray-900">Welcome back, Sarah!</h1>
+                        <p class="text-gray-600">Quick and easy mobile recharge service</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Main Recharge Form -->
+                        <div class="lg:col-span-2">
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                                <h2 class="text-lg font-semibold text-gray-900 mb-6">Recharge Your Phone</h2>
+                                
+                                <form class="space-y-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                                        <div class="flex space-x-2">
+                                            <input type="tel" placeholder="+1 (555) 123-4567" class="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-customer focus:border-transparent">
+                                            <button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50">
+                                                <i class="fas fa-address-book"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Select Country</label>
+                                        <select class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-customer focus:border-transparent">
+                                            <option value="us">🇺🇸 United States</option>
+                                            <option value="uk">🇬🇧 United Kingdom</option>
+                                            <option value="ca">🇨🇦 Canada</option>
+                                            <option value="de">🇩🇪 Germany</option>
+                                            <option value="fr">🇫🇷 France</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-3">Choose Amount</label>
+                                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                            <button type="button" class="p-4 border border-gray-300 rounded-lg text-center hover:border-customer hover:bg-orange-50 focus:ring-2 focus:ring-customer">
+                                                <div class="text-lg font-bold">$10</div>
+                                                <div class="text-xs text-gray-500">Quick top-up</div>
+                                            </button>
+                                            <button type="button" class="p-4 border-2 border-customer bg-orange-50 rounded-lg text-center">
+                                                <div class="text-lg font-bold text-customer">$25</div>
+                                                <div class="text-xs text-customer">Most popular</div>
+                                            </button>
+                                            <button type="button" class="p-4 border border-gray-300 rounded-lg text-center hover:border-customer hover:bg-orange-50 focus:ring-2 focus:ring-customer">
+                                                <div class="text-lg font-bold">$50</div>
+                                                <div class="text-xs text-gray-500">Value pack</div>
+                                            </button>
+                                            <button type="button" class="p-4 border border-gray-300 rounded-lg text-center hover:border-customer hover:bg-orange-50 focus:ring-2 focus:ring-customer">
+                                                <div class="text-lg font-bold">$100</div>
+                                                <div class="text-xs text-gray-500">Super saver</div>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-sm text-gray-700">Recharge Amount:</span>
+                                            <span class="text-sm font-medium">$25.00</span>
+                                        </div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-sm text-gray-700">Processing Fee:</span>
+                                            <span class="text-sm font-medium">$1.99</span>
+                                        </div>
+                                        <div class="border-t border-orange-200 pt-2 flex items-center justify-between">
+                                            <span class="font-medium text-gray-900">Total Amount:</span>
+                                            <span class="text-lg font-bold text-customer">$26.99</span>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="w-full bg-customer text-white py-3 px-4 rounded-md font-medium hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-customer" data-event="click:processCustomerRecharge">
+                                        <i class="fas fa-credit-card mr-2"></i>
+                                        Pay & Recharge Now
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar Info -->
+                        <div class="space-y-6">
+                            <!-- Saved Numbers -->
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Saved Numbers</h3>
+                                <div class="space-y-3">
+                                    <button class="w-full flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100">
+                                        <div class="text-left">
+                                            <div class="text-sm font-medium text-gray-900">+1-555-0123</div>
+                                            <div class="text-xs text-gray-500">My Phone (Verizon)</div>
+                                        </div>
+                                        <i class="fas fa-chevron-right text-gray-400"></i>
+                                    </button>
+                                    <button class="w-full flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100">
+                                        <div class="text-left">
+                                            <div class="text-sm font-medium text-gray-900">+44-20-7946-0958</div>
+                                            <div class="text-xs text-gray-500">Mom's Phone (EE)</div>
+                                        </div>
+                                        <i class="fas fa-chevron-right text-gray-400"></i>
+                                    </button>
+                                </div>
+                                <button class="w-full mt-3 text-customer text-sm font-medium hover:text-orange-700">
+                                    <i class="fas fa-plus mr-1"></i>Add New Number
+                                </button>
+                            </div>
+
+                            <!-- Recent Activity -->
+                            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-check text-green-600 text-xs"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="text-sm font-medium text-gray-900">$25 Recharge</div>
+                                            <div class="text-xs text-gray-500">+1-555-0123 • 2 days ago</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-check text-green-600 text-xs"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="text-sm font-medium text-gray-900">$10 Recharge</div>
+                                            <div class="text-xs text-gray-500">+44-20-7946 • 1 week ago</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="w-full mt-3 text-customer text-sm font-medium hover:text-orange-700">
+                                    View All Transactions
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // Role switching functionality
+            const roleSelector = document.getElementById('roleSelector');
+            const dashboards = document.querySelectorAll('.dashboard-view');
+
+            // TODO: Implement role-based authentication and session management
+            function switchRole(role) {
+                // Hide all dashboards
+                dashboards.forEach(dashboard => {
+                    dashboard.classList.add('hidden');
+                });
+
+                // Show selected dashboard
+                const targetDashboard = document.getElementById(role + 'Dashboard');
+                if (targetDashboard) {
+                    targetDashboard.classList.remove('hidden');
+                }
+
+                // TODO: In real implementation, verify user permissions for role
+                console.log(`Switched to ${role} view`);
+            }
+
+            roleSelector.addEventListener('change', function() {
+                switchRole(this.value);
+            });
+
+            // Initialize with admin view
+            switchRole('admin');
+
+            // TODO: Implement form validation and submission handlers
+            // TODO: Add real-time transaction updates
+            // TODO: Implement payment processing integration
+            // TODO: Add proper error handling and user feedback
+        })();
+    </script>
+</body>
+</html>

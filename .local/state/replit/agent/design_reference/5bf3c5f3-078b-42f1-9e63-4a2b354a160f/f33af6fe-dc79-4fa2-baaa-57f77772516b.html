@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>International Mobile Recharge POS - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'admin-primary': '#2563eb',
+                        'admin-secondary': '#64748b',
+                        'admin-success': '#059669',
+                        'admin-warning': '#d97706',
+                        'admin-danger': '#dc2626',
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-slate-50 font-inter text-slate-800">
+    <!-- @COMPONENT: AdminLayout -->
+    <div class="min-h-screen flex">
+        <!-- @COMPONENT: Sidebar -->
+        <aside class="w-64 bg-white shadow-lg border-r border-slate-200 flex flex-col">
+            <!-- Logo Section -->
+            <div class="p-6 border-b border-slate-200">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-admin-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-mobile-alt text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold text-slate-900">RechargePos</h1>
+                        <p class="text-sm text-slate-500">Admin Panel</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="flex-1 p-4 space-y-1">
+                <a href="#" class="flex items-center px-4 py-3 text-admin-primary bg-blue-50 rounded-lg font-medium" data-mock="true">
+                    <i class="fas fa-chart-line w-5 mr-3"></i>
+                    Dashboard
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-slate-600 hover:text-admin-primary hover:bg-slate-50 rounded-lg transition-colors" data-mock="true">
+                    <i class="fas fa-users w-5 mr-3"></i>
+                    Retailer Management
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-slate-600 hover:text-admin-primary hover:bg-slate-50 rounded-lg transition-colors" data-mock="true">
+                    <i class="fas fa-wallet w-5 mr-3"></i>
+                    Balance Management
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-slate-600 hover:text-admin-primary hover:bg-slate-50 rounded-lg transition-colors" data-mock="true">
+                    <i class="fas fa-exchange-alt w-5 mr-3"></i>
+                    Transactions
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-slate-600 hover:text-admin-primary hover:bg-slate-50 rounded-lg transition-colors" data-mock="true">
+                    <i class="fas fa-file-alt w-5 mr-3"></i>
+                    Reports
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-slate-600 hover:text-admin-primary hover:bg-slate-50 rounded-lg transition-colors" data-mock="true">
+                    <i class="fas fa-cog w-5 mr-3"></i>
+                    System Settings
+                </a>
+            </nav>
+
+            <!-- Admin Profile -->
+            <div class="p-4 border-t border-slate-200">
+                <div class="flex items-center space-x-3 px-4 py-3">
+                    <div class="w-8 h-8 bg-admin-primary rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-white text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-slate-900" data-bind="admin.name" data-mock="true">Admin User</p>
+                        <p class="text-xs text-slate-500" data-mock="true">Super Admin</p>
+                    </div>
+                    <button class="text-slate-400 hover:text-slate-600" data-event="click:handleLogout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+        <!-- @END_COMPONENT: Sidebar -->
+
+        <!-- @COMPONENT: MainContent -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- @COMPONENT: TopHeader -->
+            <header class="bg-white border-b border-slate-200 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-semibold text-slate-900">Dashboard Overview</h2>
+                        <p class="text-sm text-slate-500 mt-1">Manage your international mobile recharge system</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <!-- Search Bar -->
+                        <div class="relative">
+                            <input type="text" placeholder="Search retailers..." 
+                                   class="w-64 pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-admin-primary focus:border-transparent"
+                                   data-implementation="Implement search functionality">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                        </div>
+                        
+                        <!-- Notifications -->
+                        <button class="relative p-2 text-slate-400 hover:text-slate-600 transition-colors" data-event="click:toggleNotifications">
+                            <i class="fas fa-bell text-lg"></i>
+                            <span class="absolute -top-1 -right-1 w-3 h-3 bg-admin-danger rounded-full"></span>
+                        </button>
+
+                        <!-- Quick Actions -->
+                        <button class="px-4 py-2 bg-admin-primary text-white rounded-lg hover:bg-blue-700 transition-colors font-medium" 
+                                data-event="click:addRetailer">
+                            <i class="fas fa-plus mr-2"></i>Add Retailer
+                        </button>
+                    </div>
+                </div>
+            </header>
+            <!-- @END_COMPONENT: TopHeader -->
+
+            <!-- @COMPONENT: DashboardContent -->
+            <div class="flex-1 overflow-y-auto p-6">
+                <!-- @COMPONENT: StatisticsCards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <!-- Total Retailers Card -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-slate-500">Total Retailers</p>
+                                <p class="text-3xl font-bold text-slate-900 mt-2" data-bind="stats.totalRetailers" data-mock="true">1,247</p>
+                                <p class="text-sm text-admin-success mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i>+12% from last month
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-users text-admin-primary text-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Balance Card -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-slate-500">Total System Balance</p>
+                                <p class="text-3xl font-bold text-slate-900 mt-2" data-bind="stats.totalBalance" data-mock="true">$45,892</p>
+                                <p class="text-sm text-admin-success mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i>+8.5% from last week
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-wallet text-admin-success text-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Transactions Card -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-slate-500">Today's Transactions</p>
+                                <p class="text-3xl font-bold text-slate-900 mt-2" data-bind="stats.dailyTransactions" data-mock="true">324</p>
+                                <p class="text-sm text-admin-warning mt-1">
+                                    <i class="fas fa-minus mr-1"></i>-2.1% from yesterday
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-exchange-alt text-admin-warning text-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Card -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-slate-500">Monthly Revenue</p>
+                                <p class="text-3xl font-bold text-slate-900 mt-2" data-bind="stats.monthlyRevenue" data-mock="true">$12,680</p>
+                                <p class="text-sm text-admin-success mt-1">
+                                    <i class="fas fa-arrow-up mr-1"></i>+15.3% from last month
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-chart-line text-purple-600 text-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: StatisticsCards -->
+
+                <!-- @COMPONENT: MainDashboardContent -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- @COMPONENT: RetailerManagementPanel -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+                            <div class="p-6 border-b border-slate-200">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-lg font-semibold text-slate-900">Retailer Management</h3>
+                                    <div class="flex space-x-2">
+                                        <button class="px-3 py-1.5 text-sm bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition-colors"
+                                                data-event="click:exportRetailers">
+                                            <i class="fas fa-download mr-1"></i>Export
+                                        </button>
+                                        <button class="px-3 py-1.5 text-sm bg-admin-primary text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                                data-event="click:addRetailer">
+                                            <i class="fas fa-plus mr-1"></i>Add New
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- @COMPONENT: RetailerTable -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-slate-50">
+                                        <tr>
+                                            <th class="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider">Retailer</th>
+                                            <th class="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider">Balance</th>
+                                            <th class="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                                            <th class="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider">Last Activity</th>
+                                            <th class="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-slate-200">
+                                        <!-- @MAP: retailers.map(retailer => ( -->
+                                        <tr class="hover:bg-slate-50" data-mock="true">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="w-8 h-8 bg-admin-primary rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-sm font-medium" data-bind="retailer.initials">JD</span>
+                                                    </div>
+                                                    <div class="ml-3">
+                                                        <p class="text-sm font-medium text-slate-900" data-bind="retailer.name">John's Mobile Shop</p>
+                                                        <p class="text-sm text-slate-500" data-bind="retailer.email">john@mobileshop.com</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="text-sm font-medium text-slate-900" data-bind="retailer.balance">$2,450.00</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-medium bg-admin-success bg-opacity-10 text-admin-success rounded-full" 
+                                                      data-bind="retailer.status">Active</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500" data-bind="retailer.lastActivity">2 hours ago</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <div class="flex space-x-2">
+                                                    <button class="text-admin-primary hover:text-blue-700" data-event="click:editRetailer">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="text-admin-success hover:text-green-700" data-event="click:manageBalance">
+                                                        <i class="fas fa-wallet"></i>
+                                                    </button>
+                                                    <button class="text-admin-danger hover:text-red-700" data-event="click:deleteRetailer">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="hover:bg-slate-50" data-mock="true">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="w-8 h-8 bg-admin-success rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-sm font-medium">SA</span>
+                                                    </div>
+                                                    <div class="ml-3">
+                                                        <p class="text-sm font-medium text-slate-900">Smart Telecom</p>
+                                                        <p class="text-sm text-slate-500">sarah@smarttelecom.com</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="text-sm font-medium text-slate-900">$1,890.50</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-medium bg-admin-success bg-opacity-10 text-admin-success rounded-full">Active</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">1 day ago</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <div class="flex space-x-2">
+                                                    <button class="text-admin-primary hover:text-blue-700">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="text-admin-success hover:text-green-700">
+                                                        <i class="fas fa-wallet"></i>
+                                                    </button>
+                                                    <button class="text-admin-danger hover:text-red-700">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="hover:bg-slate-50" data-mock="true">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="w-8 h-8 bg-admin-warning rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-sm font-medium">MT</span>
+                                                    </div>
+                                                    <div class="ml-3">
+                                                        <p class="text-sm font-medium text-slate-900">Mobile Tech Hub</p>
+                                                        <p class="text-sm text-slate-500">mike@mobiletechhub.com</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="text-sm font-medium text-slate-900">$156.75</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex px-2 py-1 text-xs font-medium bg-admin-warning bg-opacity-10 text-admin-warning rounded-full">Low Balance</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">3 hours ago</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <div class="flex space-x-2">
+                                                    <button class="text-admin-primary hover:text-blue-700">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="text-admin-success hover:text-green-700">
+                                                        <i class="fas fa-wallet"></i>
+                                                    </button>
+                                                    <button class="text-admin-danger hover:text-red-700">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- @END_MAP )) -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- @END_COMPONENT: RetailerTable -->
+
+                            <!-- Pagination -->
+                            <div class="px-6 py-4 border-t border-slate-200">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm text-slate-500">Showing 1 to 3 of 1,247 retailers</p>
+                                    <div class="flex space-x-1">
+                                        <button class="px-3 py-1 text-sm border border-slate-300 rounded hover:bg-slate-50" data-event="click:previousPage">Previous</button>
+                                        <button class="px-3 py-1 text-sm bg-admin-primary text-white rounded">1</button>
+                                        <button class="px-3 py-1 text-sm border border-slate-300 rounded hover:bg-slate-50">2</button>
+                                        <button class="px-3 py-1 text-sm border border-slate-300 rounded hover:bg-slate-50">3</button>
+                                        <button class="px-3 py-1 text-sm border border-slate-300 rounded hover:bg-slate-50" data-event="click:nextPage">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: RetailerManagementPanel -->
+
+                    <!-- @COMPONENT: QuickActionsPanel -->
+                    <div class="space-y-6">
+                        <!-- Recent Transactions -->
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+                            <div class="p-6 border-b border-slate-200">
+                                <h3 class="text-lg font-semibold text-slate-900">Recent Transactions</h3>
+                            </div>
+                            <div class="p-6 space-y-4">
+                                <!-- @MAP: recentTransactions.map(transaction => ( -->
+                                <div class="flex items-center justify-between" data-mock="true">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-admin-success bg-opacity-10 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-mobile-alt text-admin-success text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-slate-900" data-bind="transaction.type">Mobile Recharge</p>
+                                            <p class="text-xs text-slate-500" data-bind="transaction.retailer">John's Mobile Shop</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium text-admin-success" data-bind="transaction.amount">+$25.00</p>
+                                        <p class="text-xs text-slate-500" data-bind="transaction.time">2m ago</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between" data-mock="true">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-admin-primary bg-opacity-10 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-plus text-admin-primary text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-slate-900">Balance Added</p>
+                                            <p class="text-xs text-slate-500">Smart Telecom</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium text-admin-success">+$500.00</p>
+                                        <p class="text-xs text-slate-500">15m ago</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between" data-mock="true">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-admin-warning bg-opacity-10 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-mobile-alt text-admin-warning text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-slate-900">Mobile Recharge</p>
+                                            <p class="text-xs text-slate-500">Mobile Tech Hub</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium text-admin-success">+$50.00</p>
+                                        <p class="text-xs text-slate-500">1h ago</p>
+                                    </div>
+                                </div>
+                                <!-- @END_MAP )) -->
+                            </div>
+                            <div class="px-6 pb-6">
+                                <button class="w-full text-sm text-admin-primary hover:text-blue-700 font-medium" data-event="click:viewAllTransactions">
+                                    View All Transactions <i class="fas fa-arrow-right ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quick Balance Management -->
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+                            <div class="p-6 border-b border-slate-200">
+                                <h3 class="text-lg font-semibold text-slate-900">Quick Balance Management</h3>
+                            </div>
+                            <div class="p-6">
+                                <form class="space-y-4" data-implementation="Form should handle balance adjustments">
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Select Retailer</label>
+                                        <select class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-admin-primary focus:border-transparent" data-mock="true">
+                                            <option>John's Mobile Shop</option>
+                                            <option>Smart Telecom</option>
+                                            <option>Mobile Tech Hub</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Action Type</label>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <button type="button" class="px-4 py-2 bg-admin-success text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
+                                                    data-event="click:selectAddBalance">
+                                                <i class="fas fa-plus mr-2"></i>Add
+                                            </button>
+                                            <button type="button" class="px-4 py-2 bg-admin-danger text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
+                                                    data-event="click:selectDeductBalance">
+                                                <i class="fas fa-minus mr-2"></i>Deduct
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Amount ($)</label>
+                                        <input type="number" placeholder="0.00" 
+                                               class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-admin-primary focus:border-transparent"
+                                               data-implementation="Validate amount input">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Notes</label>
+                                        <textarea rows="2" placeholder="Add a note for this transaction..." 
+                                                  class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-admin-primary focus:border-transparent resize-none"></textarea>
+                                    </div>
+                                    <button type="submit" class="w-full px-4 py-2 bg-admin-primary text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                                            data-event="click:executeBalanceChange">
+                                        Execute Transaction
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- System Alerts -->
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+                            <div class="p-6 border-b border-slate-200">
+                                <h3 class="text-lg font-semibold text-slate-900">System Alerts</h3>
+                            </div>
+                            <div class="p-6 space-y-3">
+                                <div class="flex items-start space-x-3 p-3 bg-admin-warning bg-opacity-10 rounded-lg" data-mock="true">
+                                    <i class="fas fa-exclamation-triangle text-admin-warning mt-0.5"></i>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-900">Low Balance Alert</p>
+                                        <p class="text-xs text-slate-600">Mobile Tech Hub has a balance below $200</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 p-3 bg-admin-success bg-opacity-10 rounded-lg" data-mock="true">
+                                    <i class="fas fa-check-circle text-admin-success mt-0.5"></i>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-900">New Retailer Added</p>
+                                        <p class="text-xs text-slate-600">TechCom Store successfully registered</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: QuickActionsPanel -->
+                </div>
+                <!-- @END_COMPONENT: MainDashboardContent -->
+            </div>
+            <!-- @END_COMPONENT: DashboardContent -->
+        </main>
+        <!-- @END_COMPONENT: MainContent -->
+    </div>
+    <!-- @END_COMPONENT: AdminLayout -->
+
+    <!-- @COMPONENT: Modal Components (Hidden by default) -->
+    <!-- Add Retailer Modal -->
+    <div id="addRetailerModal" class="fixed inset-0 z-50 hidden">
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6 border-b border-slate-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold text-slate-900">Add New Retailer</h3>
+                        <button class="text-slate-400 hover:text-slate-600" data-event="click:closeModal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <form class="p-6 space-y-4" data-implementation="Handle retailer creation">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Business Name</label>
+                        <input type="text" placeholder="Enter business name" 
+                               class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-admin-primary focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                        <input type="email" placeholder="retailer@example.com" 
+                               class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-admin-primary focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                        <input type="tel" placeholder="+1 (555) 123-4567" 
+                               class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-admin-primary focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Initial Balance ($)</label>
+                        <input type="number" placeholder="0.00" min="0" step="0.01" 
+                               class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-admin-primary focus:border-transparent">
+                    </div>
+                    <div class="flex space-x-3 pt-4">
+                        <button type="button" class="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+                                data-event="click:closeModal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="flex-1 px-4 py-2 bg-admin-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Add Retailer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: Modal Components -->
+
+    <script>
+        // TODO: Implement business logic, API calls, and state management
+        (function() {
+            // Modal functionality example (not full implementation)
+            const addRetailerModal = document.getElementById('addRetailerModal');
+            
+            // Example event handlers would go here
+            // Real implementation would include:
+            // - Form validation
+            // - API calls for CRUD operations
+            // - Real-time data updates
+            // - Authentication and authorization
+            // - Error handling and user feedback
+        })();
+    </script>
+</body>
+</html>

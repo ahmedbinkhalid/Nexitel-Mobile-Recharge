@@ -1,0 +1,555 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MobilePay POS - International Mobile Recharge System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    'inter': ['Inter', 'sans-serif'],
+                },
+                colors: {
+                    'primary': '#1976D2',
+                    'primary-dark': '#1565C0',
+                    'secondary': '#388E3C',
+                    'accent': '#F57C00',
+                    'neutral-50': '#F5F5F5',
+                    'neutral-100': '#E0E0E0',
+                    'neutral-600': '#424242',
+                    'error': '#D32F2F',
+                    'success': '#388E3C',
+                    'warning': '#FF9800'
+                }
+            }
+        }
+    };
+    </script>
+</head>
+<body class="font-inter bg-neutral-50 text-neutral-600">
+    <!-- @COMPONENT: MainLayout -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- @COMPONENT: Sidebar -->
+        <div class="w-64 bg-white shadow-lg border-r border-neutral-100 flex flex-col">
+            <!-- Logo Section -->
+            <div class="p-6 border-b border-neutral-100">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-mobile-alt text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-neutral-600">MobilePay</h1>
+                        <p class="text-sm text-gray-500">POS System</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg bg-primary text-white transition-colors" data-event="click:setActiveView" data-implementation="Set active view to transactions">
+                    <i class="fas fa-credit-card w-5"></i>
+                    <span class="font-medium">New Transaction</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-neutral-50 transition-colors" data-event="click:setActiveView">
+                    <i class="fas fa-users w-5"></i>
+                    <span class="font-medium">Clients</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-neutral-50 transition-colors" data-event="click:setActiveView">
+                    <i class="fas fa-history w-5"></i>
+                    <span class="font-medium">Transaction History</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-neutral-50 transition-colors" data-event="click:setActiveView">
+                    <i class="fas fa-chart-bar w-5"></i>
+                    <span class="font-medium">Reports</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-neutral-50 transition-colors" data-event="click:setActiveView">
+                    <i class="fas fa-cog w-5"></i>
+                    <span class="font-medium">Settings</span>
+                </a>
+            </nav>
+
+            <!-- User Info -->
+            <div class="p-4 border-t border-neutral-100">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-gray-600 text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-700" data-bind="user.name">John Cashier</p>
+                        <p class="text-xs text-gray-500">Cashier</p>
+                    </div>
+                    <button class="text-gray-400 hover:text-gray-600" data-event="click:logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: Sidebar -->
+
+        <!-- @COMPONENT: MainContent -->
+        <div class="flex-1 flex overflow-hidden">
+            <!-- @COMPONENT: TransactionPanel -->
+            <div class="flex-1 flex flex-col bg-white">
+                <!-- Header -->
+                <div class="p-6 border-b border-neutral-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">New Transaction</h2>
+                            <p class="text-gray-500 mt-1">International Mobile Recharge Service</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <p class="text-sm text-gray-500">Available Balance</p>
+                                <p class="text-xl font-bold text-success" data-bind="account.balance">$2,450.00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction Form -->
+                <div class="flex-1 p-6 overflow-y-auto">
+                    <div class="max-w-4xl mx-auto">
+                        <!-- Step 1: Client Selection -->
+                        <div class="bg-white rounded-xl border border-neutral-100 p-6 mb-6">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">1</div>
+                                <h3 class="text-lg font-semibold text-gray-800">Select Client</h3>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Search Client</label>
+                                    <div class="relative">
+                                        <input type="text" placeholder="Search by name, phone, or ID..." 
+                                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                               data-event="input:searchClients" data-implementation="Search clients by name, phone, or ID">
+                                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Quick Actions</label>
+                                    <button class="w-full bg-neutral-50 hover:bg-neutral-100 border border-gray-300 rounded-lg py-3 px-4 text-gray-700 transition-colors"
+                                            data-event="click:openNewClientModal" data-implementation="Open new client registration modal">
+                                        <i class="fas fa-plus mr-2"></i>Add New Client
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Selected Client Display -->
+                            <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-medium">
+                                            <span data-bind="selectedClient.initials">JS</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-gray-800" data-bind="selectedClient.name">John Smith</h4>
+                                            <p class="text-sm text-gray-500" data-bind="selectedClient.phone">+1 555-0123</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm text-gray-500">Total Transactions</p>
+                                        <p class="font-semibold text-gray-800" data-bind="selectedClient.transactionCount">24</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Destination & Amount -->
+                        <div class="bg-white rounded-xl border border-neutral-100 p-6 mb-6">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">2</div>
+                                <h3 class="text-lg font-semibold text-gray-800">Recharge Details</h3>
+                            </div>
+
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Country & Carrier</label>
+                                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                            data-event="change:updateCarrierOptions" data-implementation="Update available carriers based on country">
+                                        <option value="">Select Country</option>
+                                        <option value="US">🇺🇸 United States</option>
+                                        <option value="UK">🇬🇧 United Kingdom</option>
+                                        <option value="CA">🇨🇦 Canada</option>
+                                        <option value="MX">🇲🇽 Mexico</option>
+                                        <option value="BR">🇧🇷 Brazil</option>
+                                        <option value="IN">🇮🇳 India</option>
+                                        <option value="PH">🇵🇭 Philippines</option>
+                                    </select>
+                                    
+                                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent mt-3"
+                                            data-event="change:updateRechargeOptions" data-implementation="Update available recharge amounts based on carrier">
+                                        <option value="">Select Carrier</option>
+                                        <option value="verizon">Verizon</option>
+                                        <option value="att">AT&T</option>
+                                        <option value="tmobile">T-Mobile</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
+                                    <div class="relative">
+                                        <input type="tel" placeholder="+1 555-000-0000"
+                                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                               data-event="input:validatePhoneNumber" data-implementation="Validate phone number format for selected country">
+                                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                            <i class="fas fa-check-circle text-success hidden" id="phone-valid"></i>
+                                            <i class="fas fa-exclamation-circle text-error hidden" id="phone-invalid"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1">Number will be validated for the selected country</p>
+                                </div>
+                            </div>
+
+                            <!-- Recharge Amount Selection -->
+                            <div class="mt-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Recharge Amount</label>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <!-- @MAP: rechargeOptions.map(option => ( -->
+                                    <button class="p-4 border-2 border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors text-center"
+                                            data-event="click:selectAmount" data-implementation="Select recharge amount and calculate fees">
+                                        <div class="text-lg font-bold text-gray-800">$10</div>
+                                        <div class="text-sm text-gray-500">+ $0.50 fee</div>
+                                    </button>
+                                    <button class="p-4 border-2 border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors text-center">
+                                        <div class="text-lg font-bold text-gray-800">$25</div>
+                                        <div class="text-sm text-gray-500">+ $1.00 fee</div>
+                                    </button>
+                                    <button class="p-4 border-2 border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors text-center">
+                                        <div class="text-lg font-bold text-gray-800">$50</div>
+                                        <div class="text-sm text-gray-500">+ $1.50 fee</div>
+                                    </button>
+                                    <button class="p-4 border-2 border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors text-center">
+                                        <div class="text-lg font-bold text-gray-800">$100</div>
+                                        <div class="text-sm text-gray-500">+ $2.00 fee</div>
+                                    </button>
+                                    <!-- @END_MAP )) -->
+                                </div>
+                                
+                                <div class="mt-4 flex space-x-3">
+                                    <div class="flex-1">
+                                        <input type="number" placeholder="Custom amount"
+                                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                               data-event="input:calculateCustomFee" data-implementation="Calculate fee for custom amount">
+                                    </div>
+                                    <button class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                                            data-event="click:selectCustomAmount" data-implementation="Apply custom amount selection">
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Transaction Summary -->
+                        <div class="bg-white rounded-xl border border-neutral-100 p-6">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">3</div>
+                                <h3 class="text-lg font-semibold text-gray-800">Transaction Summary</h3>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Client:</span>
+                                            <span class="font-medium" data-bind="summary.clientName">John Smith</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Destination:</span>
+                                            <span class="font-medium" data-bind="summary.destination">+1 555-0123 (Verizon)</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Recharge Amount:</span>
+                                            <span class="font-medium" data-bind="summary.rechargeAmount">$25.00</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Service Fee:</span>
+                                            <span class="font-medium" data-bind="summary.serviceFee">$1.00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Currency:</span>
+                                            <span class="font-medium" data-bind="summary.currency">USD</span>
+                                        </div>
+                                        <div class="flex justify-between border-t border-gray-200 pt-3">
+                                            <span class="text-lg font-semibold text-gray-800">Total Amount:</span>
+                                            <span class="text-lg font-bold text-primary" data-bind="summary.totalAmount">$26.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end space-x-4 mt-6">
+                                <button class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                        data-event="click:clearTransaction" data-implementation="Clear current transaction and reset form">
+                                    Clear
+                                </button>
+                                <button class="px-8 py-3 bg-success text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                                        data-event="click:processTransaction" data-implementation="Process transaction and show confirmation">
+                                    <i class="fas fa-credit-card mr-2"></i>
+                                    Process Transaction
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: TransactionPanel -->
+
+            <!-- @COMPONENT: RightPanel -->
+            <div class="w-80 bg-white border-l border-neutral-100 flex flex-col">
+                <!-- Recent Transactions -->
+                <div class="p-4 border-b border-neutral-100">
+                    <h3 class="font-semibold text-gray-800 mb-3">Recent Transactions</h3>
+                    <div class="space-y-3">
+                        <!-- @MAP: recentTransactions.map(transaction => ( -->
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg" data-mock="true">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-success rounded-full flex items-center justify-center">
+                                    <i class="fas fa-check text-white text-xs"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800" data-bind="transaction.clientName">Sarah Johnson</p>
+                                    <p class="text-xs text-gray-500" data-bind="transaction.destination">+44 7911 123456</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-semibold text-gray-800" data-bind="transaction.amount">$15.00</p>
+                                <p class="text-xs text-gray-500" data-bind="transaction.time">2:30 PM</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg" data-mock="true">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-success rounded-full flex items-center justify-center">
+                                    <i class="fas fa-check text-white text-xs"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Mike Chen</p>
+                                    <p class="text-xs text-gray-500">+1 416 555 0198</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-semibold text-gray-800">$30.00</p>
+                                <p class="text-xs text-gray-500">1:45 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg" data-mock="true">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-error rounded-full flex items-center justify-center">
+                                    <i class="fas fa-times text-white text-xs"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Anna Garcia</p>
+                                    <p class="text-xs text-gray-500">+52 55 1234 5678</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-semibold text-error">Failed</p>
+                                <p class="text-xs text-gray-500">1:20 PM</p>
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+
+                <!-- Today's Statistics -->
+                <div class="p-4 border-b border-neutral-100">
+                    <h3 class="font-semibold text-gray-800 mb-3">Today's Stats</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 bg-success rounded flex items-center justify-center">
+                                    <i class="fas fa-arrow-up text-white text-xs"></i>
+                                </div>
+                                <span class="text-sm text-gray-600">Successful</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-gray-800" data-bind="stats.successful">18</p>
+                                <p class="text-xs text-gray-500">$420.00</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 bg-error rounded flex items-center justify-center">
+                                    <i class="fas fa-arrow-down text-white text-xs"></i>
+                                </div>
+                                <span class="text-sm text-gray-600">Failed</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-gray-800" data-bind="stats.failed">2</p>
+                                <p class="text-xs text-gray-500">$50.00</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 bg-warning rounded flex items-center justify-center">
+                                    <i class="fas fa-clock text-white text-xs"></i>
+                                </div>
+                                <span class="text-sm text-gray-600">Pending</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-gray-800" data-bind="stats.pending">1</p>
+                                <p class="text-xs text-gray-500">$25.00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="p-4 flex-1">
+                    <h3 class="font-semibold text-gray-800 mb-3">Quick Actions</h3>
+                    <div class="space-y-2">
+                        <button class="w-full flex items-center space-x-3 p-3 bg-neutral-50 hover:bg-neutral-100 rounded-lg transition-colors text-left"
+                                data-event="click:openReportsModal" data-implementation="Open daily reports modal">
+                            <i class="fas fa-file-alt text-gray-600"></i>
+                            <span class="text-sm text-gray-700">Daily Report</span>
+                        </button>
+                        
+                        <button class="w-full flex items-center space-x-3 p-3 bg-neutral-50 hover:bg-neutral-100 rounded-lg transition-colors text-left"
+                                data-event="click:openBalanceModal" data-implementation="Open balance management modal">
+                            <i class="fas fa-wallet text-gray-600"></i>
+                            <span class="text-sm text-gray-700">Check Balance</span>
+                        </button>
+                        
+                        <button class="w-full flex items-center space-x-3 p-3 bg-neutral-50 hover:bg-neutral-100 rounded-lg transition-colors text-left"
+                                data-event="click:printReceipt" data-implementation="Print last transaction receipt">
+                            <i class="fas fa-print text-gray-600"></i>
+                            <span class="text-sm text-gray-700">Print Receipt</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: RightPanel -->
+        </div>
+        <!-- @END_COMPONENT: MainContent -->
+    </div>
+    <!-- @END_COMPONENT: MainLayout -->
+
+    <!-- @COMPONENT: Modal - Transaction Confirmation -->
+    <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" data-implementation="Show/hide based on transaction state">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4">
+            <div class="p-6">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-success rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-check text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800">Transaction Successful!</h3>
+                    <p class="text-gray-600 mt-2">Mobile recharge has been processed successfully</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Transaction ID:</span>
+                            <span class="font-mono text-sm" data-bind="confirmation.transactionId">TXN-2024-001234</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Amount:</span>
+                            <span class="font-semibold" data-bind="confirmation.amount">$26.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Destination:</span>
+                            <span class="font-semibold" data-bind="confirmation.destination">+1 555-0123</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3">
+                    <button class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                            data-event="click:printReceipt" data-implementation="Print transaction receipt">
+                        <i class="fas fa-print mr-2"></i>Print Receipt
+                    </button>
+                    <button class="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                            data-event="click:closeModal" data-implementation="Close modal and reset transaction form">
+                        New Transaction
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: Modal -->
+
+    <script>
+    // TODO: Implement business logic, API calls, and state management
+    (function() {
+        // Mock data for demonstration
+        const mockData = {
+            user: {
+                name: "John Cashier"
+            },
+            account: {
+                balance: "$2,450.00"
+            },
+            recentTransactions: [
+                { clientName: "Sarah Johnson", destination: "+44 7911 123456", amount: "$15.00", time: "2:30 PM", status: "success" },
+                { clientName: "Mike Chen", destination: "+1 416 555 0198", amount: "$30.00", time: "1:45 PM", status: "success" },
+                { clientName: "Anna Garcia", destination: "+52 55 1234 5678", amount: "Failed", time: "1:20 PM", status: "failed" }
+            ],
+            stats: {
+                successful: 18,
+                failed: 2,
+                pending: 1
+            }
+        };
+
+        // Initialize UI interactions (demo purposes only)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Amount selection buttons
+            const amountButtons = document.querySelectorAll('[data-event="click:selectAmount"]');
+            amountButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove selection from other buttons
+                    amountButtons.forEach(btn => btn.classList.remove('border-primary', 'bg-blue-50'));
+                    // Add selection to clicked button
+                    this.classList.add('border-primary', 'bg-blue-50');
+                });
+            });
+
+            // Process transaction button
+            const processBtn = document.querySelector('[data-event="click:processTransaction"]');
+            if (processBtn) {
+                processBtn.addEventListener('click', function() {
+                    // Show confirmation modal (mock)
+                    const modal = document.getElementById('confirmationModal');
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                    }
+                });
+            }
+
+            // Close modal buttons
+            const closeModalBtns = document.querySelectorAll('[data-event="click:closeModal"]');
+            closeModalBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modal = document.getElementById('confirmationModal');
+                    if (modal) {
+                        modal.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Click outside modal to close
+            const modal = document.getElementById('confirmationModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    })();
+    </script>
+</body>
+</html>
