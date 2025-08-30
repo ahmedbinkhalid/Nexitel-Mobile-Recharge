@@ -1,0 +1,4 @@
+ICCID,IMEI (Optional),SKU,Date of Activation (Optional),Customer Name,Customer Address,Customer Address 2,City,State,ZIP,Email,Comments/ Notes,Auto Renew
+8901240412341234123F,,usvtd-30day-GSMT-0MB-750Minutes Unl SMS,,Test Customer,123 Main Street,Unit A,Seattle,WA,98101,test@example.com,Sample activation,Yes
+8901240412341234124F,123456789012345,usvtd-unlimited-GSMT-5GB-UnlMinutes UnlSMS,2024-01-15,John Smith,456 Oak Avenue,,Spokane,WA,99201,john.smith@example.com,Premium plan,No
+8901240412341234125F,,usvtd-basic-GSMT-1GB-500Minutes 1000SMS,,Jane Doe,789 Pine Street,Apt 2B,Tacoma,WA,98402,jane.doe@example.com,,Yes
